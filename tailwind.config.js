@@ -43,6 +43,11 @@ module.exports = {
       lineHeight: {
         hero: '4.5rem',
       },
+      backgroundImage: {
+        'pattern-randomized':
+          "url('/assets/images/pattern-randomized (1).svg')",
+        /* background by SVGBackgrounds.com */
+      },
     },
   },
   variants: {},

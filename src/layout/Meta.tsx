@@ -23,28 +23,28 @@ const Meta = (props: IMetaProps) => {
           key="viewport"
         />
         <link
-          rel="apple-touch-icon"
-          href={`${router.basePath}/apple-touch-icon.png`}
-          key="apple"
+          rel="relay-icon"
+          href={`${router.basePath}/relay.png`}
+          key="relay"
         />
         <link
           rel="icon"
           type="image/png"
           sizes="32x32"
-          href={`${router.basePath}/favicon-32x32.png`}
-          key="icon32"
+          href={`${router.basePath}/relay32.png`}
+          key="relay-icon32"
         />
         <link
           rel="icon"
           type="image/png"
           sizes="16x16"
-          href={`${router.basePath}/favicon-16x16.png`}
-          key="icon16"
+          href={`${router.basePath}/relay16.png`}
+          key="relay-icon16"
         />
         <link
           rel="icon"
-          href={`${router.basePath}/favicon.ico`}
-          key="favicon"
+          href={`${router.basePath}/relay.ico`}
+          key="relay-icon"
         />
       </Head>
       <NextSeo
