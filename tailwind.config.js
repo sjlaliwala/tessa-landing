@@ -44,8 +44,7 @@ module.exports = {
         hero: '4.5rem',
       },
       backgroundImage: {
-        'pattern-randomized':
-          "url('/assets/images/pattern-randomized (1).svg')",
+        'pattern-randomized': "url('/assets/images/pattern-randomized.svg')",
         /* background by SVGBackgrounds.com */
       },
     },
