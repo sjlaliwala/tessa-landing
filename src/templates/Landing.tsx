@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { LandingHeading } from '../heading/LandingHeading';
 import { Section } from '../layout/Section';
 import { NavbarTwoColumns } from '../navigation/NavbarTwoColumns';
