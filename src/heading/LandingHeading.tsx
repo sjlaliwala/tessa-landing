@@ -4,11 +4,10 @@ const LandingHeading = () => (
       <h1 className="text-blue-500 inline-block">Grow </h1> Without Limits
     </h1>
     <h2 className="text-4xl text-gray-900 font-semibold whitespace-pre-line mb-4">
-      Accelerate your{' '}
-      <h2 className="text-4xl text-blue-500 inline-block">
-        professional development
-      </h2>{' '}
-      with one platform {'\n'}
+      Professional development{' '}
+      <h2 className="text-4xl text-blue-600 inline-block">
+        delivered straight to you
+      </h2>
     </h2>
     {/* <h3 className="text-2xl text-gray-900 font-semibold mb-6 whitespace-pre-line">
         Connections, skill-building resources, jobs, industry news, and more {'\n'} 
