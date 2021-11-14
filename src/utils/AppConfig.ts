@@ -1,7 +1,6 @@
 export const AppConfig = {
   site_name: 'Tessa',
-  title: 'Optimize Your Career Path and Professional Development | Tessa',
-  description:
-    'Connections, courses, jobs, articles, books, reminders tailored and delivered to you every day',
+  title: 'trytessa.io | Grow Without Limits',
+  description: 'Accelerate your professional development with one platform',
   locale: 'en',
 };
