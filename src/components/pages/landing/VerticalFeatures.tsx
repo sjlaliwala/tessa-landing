@@ -1,6 +1,6 @@
-import { Background } from '../background/Background';
-import { VerticalFeatureRow } from '../feature/VerticalFeatureRow';
-import { Section } from '../layout/Section';
+import { Background } from '../../background/Background';
+import { VerticalFeatureRow } from '../../feature/VerticalFeatureRow';
+import { Section } from '../../layout/Section';
 
 const VerticalFeatures = () => (
   <Background color="bg-gray-800">

@@ -1,4 +1,6 @@
-module.exports = {
+const windmill = require('@windmill/react-ui/config');
+
+module.exports = windmill({
   mode: 'jit',
   purge: ['./src/**/*.{js,ts,jsx,tsx}'],
   darkMode: false,
@@ -51,4 +53,4 @@ module.exports = {
   },
   variants: {},
   plugins: [],
-};
+});

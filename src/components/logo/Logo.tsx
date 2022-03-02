@@ -1,5 +1,5 @@
-import RelayLogo from '../../public/assets/images/relay.svg';
-import { AppConfig } from '../utils/AppConfig';
+import TessaLogo from '../../../public/assets/images/tessa.svg';
+import { AppConfig } from '../../utils/AppConfig';
 
 type ILogoProps = {
   xl?: boolean;
@@ -13,7 +13,7 @@ const Logo = (props: ILogoProps) => {
 
   return (
     <span className={`text-gray-900 inline-flex items-center ${fontStyle}`}>
-      <RelayLogo width={size} height={size} className={`mr-1`} />
+      <TessaLogo href="/" width={size} height={size} className={`ml-1`} />
       {/* <svg
         className="text-primary-500 stroke-current mr-1"
         xmlns="http://www.w3.org/2000/svg"

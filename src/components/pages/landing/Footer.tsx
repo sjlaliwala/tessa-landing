@@ -1,7 +1,7 @@
 // import Link from 'next/link';
-import { CenteredFooter } from '../footer/CenteredFooter';
-import { Section } from '../layout/Section';
-import { Logo } from './Logo';
+import { CenteredFooter } from '../../footer/CenteredFooter';
+import { Section } from '../../layout/Section';
+import { Logo } from '../../logo/Logo';
 
 const Footer = () => (
   <Section>
