@@ -3,7 +3,7 @@ import { VerticalFeatureRow } from '../../feature/VerticalFeatureRow';
 import { Section } from '../../layout/Section';
 
 const VerticalFeatures = () => (
-  <Background color="bg-gray-800">
+  <Background className="bg-gray-800">
     <Section
       title="Your title here"
       description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus malesuada nisi tellus, non imperdiet nisi tempor at."

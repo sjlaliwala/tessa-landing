@@ -29,7 +29,7 @@ function SignIn() {
 
   return (
     <div className="antialiased text-gray-900">
-      <Background color="bg-pattern-randomized">
+      <Background className="h-screen w-screen bg-pattern-randomized">
         <Section yPadding="py-6">
           <LandingNavbar />
         </Section>

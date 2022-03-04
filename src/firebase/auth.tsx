@@ -23,7 +23,6 @@ const loginWithGoogle = async () => {
       name: user.displayName,
       authProvider: 'google',
       email: user.email,
-      onboarded: false,
     });
   }
 };
@@ -45,7 +44,6 @@ const signUpWithEmailAndPassword = async (
     name,
     authProvider: 'local',
     email,
-    onboarded: false,
   });
 };
 

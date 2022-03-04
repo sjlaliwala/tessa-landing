@@ -1,14 +1,14 @@
-import { Windmill } from '@windmill/react-ui';
+import React from 'react';
+
 import NextNProgress from 'nextjs-progressbar';
 
 import { Base } from '../components/pages/landing/Base';
-import tessaTheme from '../themes/tessaTheme';
 
 const Index = () => (
-  <Windmill theme={tessaTheme}>
+  <React.Fragment>
     <NextNProgress />
     <Base />
-  </Windmill>
+  </React.Fragment>
 );
 
 export default Index;

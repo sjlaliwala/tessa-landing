@@ -9,8 +9,8 @@ import { Landing } from './Landing';
 
 const Base = () => (
   <div className="antialiased text-gray-600">
-    <Meta title={AppConfig.title} description={AppConfig.description} />
-    <Background color="bg-pattern-randomized">
+    <Background className="bg-pattern-randomized h-screen w-screen">
+      <Meta title={AppConfig.title} description={AppConfig.description} />
       <Landing />
       <Footer />
     </Background>
