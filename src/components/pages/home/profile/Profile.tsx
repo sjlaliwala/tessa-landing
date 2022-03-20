@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { Input, Button } from '@windmill/react-ui';
+import router from 'next/router';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import Creatable from 'react-select/creatable';
 import TimezoneSelect from 'react-timezone-select';
@@ -170,8 +171,8 @@ function Profile() {
     }
   }, [data, error]);
 
-  if (error) return <div>{error.info.message}</div>;
-  if (!data) return <div>Loading...</div>;
+  if (error) router.replace('/onboarding/interests-survey');
+  else if (!data) return <div>Loading...</div>;
 
   return (
     <AuthenticatedPage>
