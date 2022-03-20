@@ -17,7 +17,7 @@ function OnboardingButton() {
           block
           size="large"
           className="text-xl"
-          onClick={() => router.replace('/home/interests')}
+          onClick={() => router.replace('/home/recommendations')}
         >
           Go to my updates!
         </Button>

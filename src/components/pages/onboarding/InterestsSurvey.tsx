@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Button, Input } from '@windmill/react-ui';
 import { useRouter } from 'next/router';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import Creatable from 'react-select/creatable';
+import TimezoneSelect from 'react-timezone-select';
 
 import { auth } from '../../../firebase';
 import { updateUserInfo } from '../../../firebase/user';
@@ -58,11 +59,11 @@ const locationsData = [
   { value: 'san francisco', label: 'san francisco' },
   { value: 'chicago', label: 'chicago' },
   { value: 'boston', label: 'boston' },
-  { value: 'washington DC', label: 'washington dc' },
+  { value: 'washington dc', label: 'washington dc' },
 ];
 
 function InterestsSurvey() {
-  const [user, loading] = useAuthState(auth);
+  const [user, loading, error] = useAuthState(auth);
   const router = useRouter();
 
   const [info, setInfo] = useState({
@@ -72,34 +73,58 @@ function InterestsSurvey() {
     location: '',
     school: '',
     major: '',
+    timezone: '',
   });
+
+  const [onboardingError, setOnboardingError] = useState('');
 
   const [interests, setInterests] = useState({
     careers: [],
     domains: [],
     locations: [],
   });
+
   const handleCompleteOnboarding = async () => {
-    if (!user) return;
-    const updatedUserInfo = { ...info, ...interests, last_updated: Date.now() };
+    if (
+      !interests.careers.length &&
+      !interests.domains.length &&
+      !interests.locations.length
+    ) {
+      setOnboardingError(
+        'Please enter at least 1 career, interest, or location'
+      );
+      return;
+    }
+    const tags = [
+      info.position,
+      info.company,
+      info.location,
+      info.school,
+      info.major,
+    ].concat(interests.domains);
+    const updatedUserInfo = {
+      ...info,
+      interests,
+      tags,
+      last_updated: new Date().getTime(),
+    };
     updateUserInfo(user, updatedUserInfo);
     router.replace('/home/interests');
   };
-
-  useEffect(() => {
-    if (loading) {
-      // maybe trigger a loading screen
-    }
-    if (!user) {
-      router.replace('/onboarding/sign-in');
-    }
-  }, [user, loading]);
 
   const handleInfoChange = (evt: any) => {
     const { value } = evt.target;
     setInfo({
       ...info,
       [evt.target.name]: value,
+    });
+  };
+
+  const handleTimezoneChange = (evt: any) => {
+    const { value } = evt;
+    setInfo({
+      ...info,
+      timezone: value,
     });
   };
 
@@ -110,127 +135,140 @@ function InterestsSurvey() {
     });
   };
 
+  if (loading) return <div>Loading...</div>;
+  if (error) router.replace('/onboarding/sign-in');
+  else if (!user) router.replace('/onboarding/sign-in');
+
   return (
     <div className="antialiased text-gray-900">
-      {user && (
-        <Background className="h-screen w-screen bg-pattern-randomized">
-          <Section yPadding="py-6">
-            <LandingNavbar />
+      <Background className="h-screen w-screen bg-pattern-randomized">
+        <Section yPadding="py-6">
+          <LandingNavbar />
+        </Section>
+        <form className="w-50">
+          <Section yPadding="py-2">
+            <header className="text-2xl font-semibold">
+              Tell us about your professional interests
+            </header>
+            <Creatable
+              options={domainsData}
+              isSearchable
+              isMulti
+              placeholder="What interests you?"
+              className="mt-3 text-lg"
+              onChange={(evt) => handleInterestsChange(evt, 'domains')}
+            />
+            <Creatable
+              options={careersData}
+              isSearchable
+              isMulti
+              placeholder="What careers interest to you?"
+              className="mt-3 text-lg"
+              onChange={(evt) => handleInterestsChange(evt, 'careers')}
+            />
+            <Creatable
+              options={locationsData}
+              isSearchable
+              isMulti
+              placeholder="Where locations interest you?"
+              className="mt-3 text-lg"
+              onChange={(evt) => handleInterestsChange(evt, 'locations')}
+            />
+            {onboardingError && (
+              <span className="text-red-500">{onboardingError}</span>
+            )}
           </Section>
-          <form className="w-50">
-            <Section yPadding="py-4">
-              <header className="text-2xl font-semibold">
-                Tell us about your professional interests
-              </header>
-              <Creatable
-                options={domainsData}
-                isSearchable
-                isMulti
-                placeholder="What interests you?"
-                className="mt-5 text-lg"
-                onChange={(evt) => handleInterestsChange(evt, 'domains')}
-              />
-              <Creatable
-                options={careersData}
-                isSearchable
-                isMulti
-                placeholder="What careers interest to you?"
-                className="mt-5 text-lg"
-                onChange={(evt) => handleInterestsChange(evt, 'careers')}
-              />
-              <Creatable
-                options={locationsData}
-                isSearchable
-                isMulti
-                placeholder="Where locations interest you?"
-                className="mt-5 text-lg"
-                onChange={(evt) => handleInterestsChange(evt, 'locations')}
-              />
-            </Section>
-            <Section yPadding="py-1">
-              <header className="text-2xl font-semibold">
-                And a little more information...
-              </header>
-              <div className="mt-2 grid gap-x-7 gap-y-3 grid-cols-2">
-                <div>
-                  <span className="text-xl">Linkedin</span>
-                  <Input
-                    css=""
-                    id="interests-select"
-                    className="text-lg h-10"
-                    value={info.linkedin}
-                    name="linkedin"
-                    onChange={handleInfoChange}
-                  />
-                </div>
-                <div>
-                  <span className="text-xl">Most Recent Position</span>
-                  <Input
-                    css=""
-                    className="text-lg h-10"
-                    value={info.position}
-                    name="position"
-                    onChange={handleInfoChange}
-                  />
-                </div>
-                <div>
-                  <span className="text-xl">
-                    Company/Organization (if applicable)
-                  </span>
-                  <Input
-                    css=""
-                    className="text-lg h-10"
-                    value={info.company}
-                    name="company"
-                    onChange={handleInfoChange}
-                  />
-                </div>
-                <div>
-                  <span className="text-xl">Location</span>
-                  <Input
-                    css=""
-                    className="text-lg h-10"
-                    value={info.location}
-                    name="location"
-                    onChange={handleInfoChange}
-                  />
-                </div>
-                <div>
-                  <span className="text-xl">School</span>
-                  <Input
-                    css=""
-                    className="text-lg h-10"
-                    value={info.school}
-                    name="school"
-                    onChange={handleInfoChange}
-                  />
-                </div>
-                <div>
-                  <span className="text-xl">Major</span>
-                  <Input
-                    css=""
-                    className="text-lg h-10"
-                    value={info.major}
-                    name="major"
-                    onChange={handleInfoChange}
-                  />
-                </div>
+          <Section yPadding="py-0">
+            <header className="text-2xl font-semibold">
+              And a little more information...
+            </header>
+            <TimezoneSelect
+              id="timezone-select"
+              className="text-lg mt-2"
+              value={info.timezone}
+              name="timezone"
+              placeholder="Select your preferred timezone..."
+              onChange={handleTimezoneChange}
+            />
+            <div className="mt-2 grid gap-x-7 gap-y-3 grid-cols-2">
+              <div>
+                <span className="text-xl">Linkedin</span>
+                <Input
+                  css=""
+                  id="interests-select"
+                  className="text-lg h-10"
+                  value={info.linkedin}
+                  name="linkedin"
+                  onChange={handleInfoChange}
+                />
               </div>
-            </Section>
-            <Section yPadding="py-5">
-              <Button
-                block
-                onClick={handleCompleteOnboarding}
-                layout="primary"
-                size="large"
-                className="text-xl"
-              >
-                Complete Onboarding!
-              </Button>
-            </Section>
-          </form>
-        </Background>
-      )}
+              <div>
+                <span className="text-xl">Most Recent Position</span>
+                <Input
+                  css=""
+                  className="text-lg h-10"
+                  value={info.position}
+                  name="position"
+                  onChange={handleInfoChange}
+                />
+              </div>
+              <div>
+                <span className="text-xl">
+                  Company/Organization (if applicable)
+                </span>
+                <Input
+                  css=""
+                  className="text-lg h-10"
+                  value={info.company}
+                  name="company"
+                  onChange={handleInfoChange}
+                />
+              </div>
+              <div>
+                <span className="text-xl">Location</span>
+                <Input
+                  css=""
+                  className="text-lg h-10"
+                  value={info.location}
+                  name="location"
+                  onChange={handleInfoChange}
+                />
+              </div>
+              <div>
+                <span className="text-xl">School</span>
+                <Input
+                  css=""
+                  className="text-lg h-10"
+                  value={info.school}
+                  name="school"
+                  onChange={handleInfoChange}
+                />
+              </div>
+              <div>
+                <span className="text-xl">Major</span>
+                <Input
+                  css=""
+                  className="text-lg h-10"
+                  value={info.major}
+                  name="major"
+                  onChange={handleInfoChange}
+                />
+              </div>
+            </div>
+          </Section>
+          <Section yPadding="py-5">
+            <Button
+              block
+              onClick={handleCompleteOnboarding}
+              layout="primary"
+              size="large"
+              className="text-xl"
+            >
+              Complete Onboarding!
+            </Button>
+          </Section>
+        </form>
+      </Background>
     </div>
   );
 }

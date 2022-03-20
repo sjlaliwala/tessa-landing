@@ -4,10 +4,10 @@ import { AppProps } from 'next/app';
 import '../styles/main.css';
 import tessaTheme from '../themes/tessaTheme';
 
-const MyApp = ({ Component, pageProps }: AppProps) => (
+const App = ({ Component, pageProps }: AppProps) => (
   <Windmill theme={tessaTheme}>
     <Component {...pageProps} />
   </Windmill>
 );
 
-export default MyApp;
+export default App;

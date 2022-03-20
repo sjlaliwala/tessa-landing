@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -8,32 +8,49 @@ import validator from 'validator';
 import { auth } from '../../../firebase';
 import {
   signUpWithEmailAndPassword,
-  loginWithGoogle,
+  signUpWithGoogle,
 } from '../../../firebase/auth';
 import { Background } from '../../background/Background';
 import { Section } from '../../layout/Section';
 import { LandingNavbar } from '../landing/LandingNavbar';
 
 function SignUp() {
+  const [user, loading, error] = useAuthState(auth);
+  const router = useRouter();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-  const [user, loading] = useAuthState(auth);
-  const router = useRouter();
 
-  const isValidEmail = validator.isEmail(email);
+  const [inputError, setInputError] = useState('');
 
-  const register = () => {
-    if (!name) alert('Please enter name');
-    signUpWithEmailAndPassword(name, email, password);
+  const isValidEmail = !email || validator.isEmail(email);
+
+  const handleSignUp = () => {
+    if (!name) {
+      setInputError('Please enter your full name');
+      return;
+    }
+    if (!email) {
+      setInputError('Please enter an email');
+      return;
+    }
+    if (!password) {
+      setInputError('Please enter a password');
+      return;
+    }
+    signUpWithEmailAndPassword(name, email, password).catch((e) =>
+      setInputError(e.message)
+    );
   };
 
-  useEffect(() => {
-    if (loading) return;
-    if (user) {
-      router.replace('/onboarding/interests-survey');
-    }
-  }, [user, loading]);
+  const handleGoogleSignUp = () => {
+    signUpWithGoogle().catch((e) => setInputError(e.message));
+  };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <></>;
+  if (user) router.replace('/onboarding/interests-survey');
 
   return (
     <div className="antialiased text-gray-900">
@@ -65,26 +82,29 @@ function SignUp() {
               )}
               <input
                 type="password"
-                className="p-5 text-base mt-5 border rounded-lg border-gray-400"
+                className={`p-5 text-base ${
+                  !isValidEmail ? 'mt-1' : 'mt-5'
+                } border rounded-lg border-gray-400`}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
               />
+              {inputError && <span className="text-red-500">{inputError}</span>}
               <button
                 disabled={!isValidEmail}
-                className="disabled:bg-gray-500 p-3 text-lg mt-5 rounded-lg text-white bg-black disabled:bg-blue-300"
-                onClick={register}
+                className={`disabled:bg-gray-500 p-3 text-lg mt-4 rounded-lg text-white bg-black disabled:bg-blue-300`}
+                onClick={handleSignUp}
               >
                 Register
               </button>
               <button
                 className="p-3 text-lg mt-5 rounded-lg text-white bg-blue-600"
-                onClick={loginWithGoogle}
+                onClick={handleGoogleSignUp}
               >
                 Register with Google
               </button>
 
-              <div className="text-lg mt-2">
+              <div className="text-lg mt-5">
                 Already have an account?{' '}
                 <Link href="/onboarding/sign-in">Login now</Link>.
               </div>
