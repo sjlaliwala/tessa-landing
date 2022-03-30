@@ -75,7 +75,7 @@ function deepCheckObjects(o1: any, o2: any) {
 function Profile() {
   const [user] = useAuthState(auth);
 
-  const { data, error } = useSWR(
+  const { data: userData, error } = useSWR(
     user?.uid ? `/api/user/${user.uid}` : null,
     fetcher
   );
@@ -109,6 +109,15 @@ function Profile() {
   const [profileError, setProfileError] = useState('');
 
   const [updateLoading, setUpdateLoading] = useState(false);
+
+  useEffect(() => {
+    if (userData) {
+      setInfo(userData);
+      setNewInfo(userData);
+      setInterests(userData.interests);
+      setNewInterests(userData.interests);
+    }
+  }, [userData, error]);
 
   const handleProfileUpdate = async () => {
     if (
@@ -162,17 +171,8 @@ function Profile() {
     });
   };
 
-  useEffect(() => {
-    if (data) {
-      setInfo(data.userData);
-      setNewInfo(data.userData);
-      setInterests(data.userData.interests);
-      setNewInterests(data.userData.interests);
-    }
-  }, [data, error]);
-
   if (error) router.replace('/onboarding/interests-survey');
-  else if (!data) return <div>Loading...</div>;
+  else if (!userData) return <div>Loading...</div>;
 
   return (
     <AuthenticatedPage>

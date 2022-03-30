@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { db } from '../../../firebase';
 
-async function fetchUserData(uid: any) {
+async function fetchUser(uid: any) {
   const userRef = doc(db, 'users', uid);
   const userSnap = await getDoc(userRef);
   const userData = userSnap.exists() ? userSnap.data() : null;
@@ -22,9 +22,9 @@ export default async function userHandler(
   switch (method) {
     case 'GET': {
       // Get data from your database
-      const userData = await fetchUserData(uid);
+      const userData = await fetchUser(uid);
       if (userData) {
-        res.status(200).json({ userData });
+        res.status(200).json(userData);
       } else {
         res.status(404).json({ message: 'User not found' });
       }

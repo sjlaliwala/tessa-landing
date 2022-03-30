@@ -7,7 +7,7 @@ import { signOut } from '../../../firebase/auth';
 import { Logo } from '../../logo/Logo';
 import { NavbarTwoColumns } from '../../navigation/NavbarTwoColumns';
 
-const pages = ['Recommendations', 'Profile'];
+const pages = ['Feed', 'Recommendations', 'Profile'];
 
 function HomeNavbar() {
   const handleLogout = () => {
@@ -18,7 +18,7 @@ function HomeNavbar() {
     <NavbarTwoColumns logo={<Logo xl />}>
       {pages.map((page) => {
         return (
-          <li className="text-xl font-semibold" key={page}>
+          <li className="text-2xl font-semibold" key={page}>
             <Link href={`/home/${page.toLowerCase()}`}>{page}</Link>
           </li>
         );

@@ -184,7 +184,7 @@ export default {
       right: 'ml-2 mr-3',
     },
     primary: {
-      base: 'text-white bg-blue-600 border border-transparent',
+      base: 'text-white bg-blue-600 border-4 border-double border-blue-300',
       active:
         'active:bg-blue-600 hover:bg-blue-700 focus:ring focus:ring-blue-300',
       disabled: 'opacity-50 cursor-not-allowed',

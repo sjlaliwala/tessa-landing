@@ -6,16 +6,18 @@ import { LandingHeading } from './LandingHeading';
 import { LandingNavbar } from './LandingNavbar';
 import { OnboardingButton } from './OnboardingButton';
 
+const screenSize = 'lg';
+
 function Landing() {
   return (
     <Background className="bg-pattern-randomized h-screen w-screen">
-      <Section yPadding="py-6">
+      <Section yPadding="py-6" sectionWidth={screenSize}>
         <LandingNavbar />
       </Section>
-      <Section yPadding="pt-10">
+      <Section yPadding="pt-10" sectionWidth={screenSize}>
         <LandingHeading />
       </Section>
-      <Section>
+      <Section sectionWidth={screenSize}>
         <OnboardingButton />
       </Section>
     </Background>
