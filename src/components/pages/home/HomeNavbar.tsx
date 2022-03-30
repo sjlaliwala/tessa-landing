@@ -1,0 +1,44 @@
+import React from 'react';
+
+import { Button } from '@windmill/react-ui';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+
+import { signOut } from '../../../firebase/auth';
+import { Logo } from '../../logo/Logo';
+import { NavbarTwoColumns } from '../../navigation/NavbarTwoColumns';
+
+const pages = ['Feed', 'Recommendations', 'Profile'];
+
+function HomeNavbar() {
+  const router = useRouter();
+
+  const handleLogout = () => {
+    signOut();
+    router.replace('/');
+  };
+
+  return (
+    <NavbarTwoColumns logo={<Logo xl />}>
+      {pages.map((page) => {
+        return (
+          <li className="text-2xl font-semibold" key={page}>
+            <Link href={`/home/${page.toLowerCase()}`}>{page}</Link>
+          </li>
+        );
+      })}
+      <li>
+        <Button
+          key="sign-out"
+          layout="primary"
+          size="large"
+          onClick={handleLogout}
+        >
+          Sign Out
+        </Button>
+      </li>
+    </NavbarTwoColumns>
+  );
+}
+
+export { HomeNavbar };
