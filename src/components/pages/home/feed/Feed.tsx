@@ -21,7 +21,7 @@ function Feed() {
 
   useEffect(() => {
     if (user) {
-      fetch(`/api/feed/1`)
+      fetch(`/api/feed/${user.uid}`)
         .then(async (res) => {
           if (res.ok) {
             const { feed: newFeed }: any = await res.json();

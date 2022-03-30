@@ -102,8 +102,8 @@ function Profile() {
   const [newInterests, setNewInterests] = useState(interests);
 
   const canUpdateProfile = deepCheckObjects(
-    { ...info, interests },
-    { ...newInfo, interests: newInterests }
+    { ...info, ...interests },
+    { ...newInfo, ...newInterests }
   );
 
   const [profileError, setProfileError] = useState('');
@@ -169,6 +169,11 @@ function Profile() {
       ...newInterests,
       [name]: evt.map((e: any) => e.value),
     });
+  };
+
+  const handleSetDefault = () => {
+    setNewInfo(info);
+    setNewInterests(interests);
   };
 
   if (error) router.replace('/onboarding/interests-survey');
@@ -292,17 +297,31 @@ function Profile() {
               onChange={handleInfoChange}
             />
           </div>
+          <div className="flex flex-row">
+            <Button
+              block
+              onClick={handleSetDefault}
+              disabled={canUpdateProfile || updateLoading}
+              layout="primary"
+              size="large"
+              className="text-xl mt-4 "
+            >
+              Reset Info
+            </Button>
+          </div>
+          <div>
+            <Button
+              block
+              onClick={handleProfileUpdate}
+              disabled={canUpdateProfile || updateLoading}
+              layout="primary"
+              size="large"
+              className="text-xl mt-4"
+            >
+              Update Info
+            </Button>
+          </div>
         </div>
-        <Button
-          block
-          onClick={handleProfileUpdate}
-          disabled={canUpdateProfile || updateLoading}
-          layout="primary"
-          size="large"
-          className="text-xl mt-4"
-        >
-          Update Info
-        </Button>
       </form>
     </AuthenticatedPage>
   );
