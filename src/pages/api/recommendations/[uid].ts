@@ -1,4 +1,4 @@
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { db } from '../../../firebase';
@@ -28,12 +28,12 @@ async function fetchRecommendations(uid: any) {
   const recommendationsRef = collection(db, 'recommendations');
   const userRecommendationsQuery = query(
     recommendationsRef,
-    where('uid', '==', uid)
+    where('uid', '==', uid),
+    orderBy('timestamp', 'desc')
   );
   const userRecommendationSnapshot = await getDocs(userRecommendationsQuery);
   const userRecommendations: any = [];
   userRecommendationSnapshot.forEach((doc) => {
-    // doc.data() is never undefined for query doc snapshots
     userRecommendations.push(doc.data());
   });
   return userRecommendations.length > 0 ? userRecommendations : null;
