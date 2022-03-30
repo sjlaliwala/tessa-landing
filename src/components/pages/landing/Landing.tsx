@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Background } from '../../background/Background';
 import { Section } from '../../layout/Section';
+import { Footer } from './Footer';
 import { LandingHeading } from './LandingHeading';
 import { LandingNavbar } from './LandingNavbar';
 import { OnboardingButton } from './OnboardingButton';
@@ -17,6 +18,9 @@ function Landing() {
       </Section>
       <Section>
         <OnboardingButton />
+      </Section>
+      <Section>
+        <Footer />
       </Section>
     </Background>
   );
