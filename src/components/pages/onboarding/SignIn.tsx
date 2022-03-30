@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -16,10 +16,9 @@ import { LandingNavbar } from '../landing/LandingNavbar';
 function SignIn() {
   const [user, loading, error] = useAuthState(auth);
   const router = useRouter();
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const [userError, setUserError] = useState('');
   const [inputError, setInputError] = useState('');
 
   const handleSignIn = () => {
@@ -39,11 +38,30 @@ function SignIn() {
     loginWithGoogle().catch((e) => setInputError(e.message));
   };
 
+  useEffect(() => {
+    if (user) {
+      fetch(`/api/user/${user.uid}`)
+        .then(async (res) => {
+          if (res.ok) {
+            const { userData: newUserData }: any = await res.json();
+            if (!newUserData.onboarded) {
+              router.replace('/onboarding/interests-survey');
+            } else {
+              router.replace('/home/profile');
+            }
+          } else {
+            const { message }: any = await res.json();
+            const err = new Error(message);
+            throw err;
+          }
+        })
+        .catch((e) => setUserError(e.message));
+    }
+  }, [user]);
+
+  if (error) return <p>{error}</p>;
+  if (userError) return <p>{userError}</p>;
   if (loading) return <div>Loading...</div>;
-  if (error) return <></>;
-  if (user) {
-    router.replace('/home/feed');
-  }
 
   return (
     <div className="antialiased text-gray-900">

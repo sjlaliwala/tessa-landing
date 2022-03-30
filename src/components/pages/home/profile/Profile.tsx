@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
 import { Input, Button } from '@windmill/react-ui';
-import router from 'next/router';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import Creatable from 'react-select/creatable';
 import TimezoneSelect from 'react-timezone-select';
@@ -111,7 +110,7 @@ function Profile() {
       last_updated: new Date().getTime(),
     };
     setUpdateLoading(true);
-    updateUserInfo(user, updatedUserInfo);
+    updateUserInfo(user, updatedUserInfo).catch((e) => setError(e.message));
     setInfo(newInfo);
     setInterests(newInterests);
     setUpdateLoading(false);
@@ -151,10 +150,6 @@ function Profile() {
         .then(async (res) => {
           if (res.ok) {
             const { userData: newUserData }: any = await res.json();
-            if (!newUserData.onboarded) {
-              router.replace('/onboarding/interests-survey');
-              return;
-            }
             setNewInfo(newUserData);
             setNewInterests(newUserData.interests);
             setInfo(newUserData);
