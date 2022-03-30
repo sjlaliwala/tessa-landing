@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Button, Input } from '@windmill/react-ui';
 import { useRouter } from 'next/router';
@@ -84,6 +84,27 @@ function InterestsSurvey() {
     locations: [],
   });
 
+  const [userError, setUserError] = useState('');
+
+  useEffect(() => {
+    if (user) {
+      fetch(`/api/user/${user.uid}`)
+        .then(async (res) => {
+          if (res.ok) {
+            const { userData: newUserData }: any = await res.json();
+            if (newUserData.onboarded) {
+              router.replace('/home/profile');
+            }
+          } else {
+            const { message }: any = await res.json();
+            const err = new Error(message);
+            throw err;
+          }
+        })
+        .catch((e) => setUserError(e.message));
+    }
+  }, [user]);
+
   const handleCompleteOnboarding = async () => {
     if (
       !interests.careers.length &&
@@ -95,21 +116,28 @@ function InterestsSurvey() {
       );
       return;
     }
+    if (!info.timezone) {
+      setOnboardingError('Please enter your main timezone!');
+      return;
+    }
     const tags = [
       info.position,
       info.company,
       info.location,
       info.school,
       info.major,
-    ].concat(interests.domains);
+    ]
+      .concat(interests.domains)
+      .filter((tag) => tag.length !== 0);
     const updatedUserInfo = {
       ...info,
       interests,
       tags,
+      onboarded: true,
       last_updated: new Date().getTime(),
     };
-    updateUserInfo(user, updatedUserInfo);
-    router.replace('/home/interests');
+    await updateUserInfo(user, updatedUserInfo);
+    router.replace('/home/profile');
   };
 
   const handleInfoChange = (evt: any) => {
@@ -138,15 +166,16 @@ function InterestsSurvey() {
   if (loading) return <div>Loading...</div>;
   if (error) router.replace('/onboarding/sign-in');
   else if (!user) router.replace('/onboarding/sign-in');
+  else if (userError) return <p>{userError}</p>;
 
   return (
     <div className="antialiased text-gray-900">
       <Background className="h-screen w-screen bg-pattern-randomized">
-        <Section yPadding="py-6">
+        <Section yPadding="py-4">
           <LandingNavbar />
         </Section>
         <form className="w-50">
-          <Section yPadding="py-2">
+          <Section yPadding="py-1">
             <header className="text-2xl font-semibold">
               Tell us about your professional interests
             </header>
@@ -174,9 +203,6 @@ function InterestsSurvey() {
               className="mt-3 text-lg"
               onChange={(evt) => handleInterestsChange(evt, 'locations')}
             />
-            {onboardingError && (
-              <span className="text-red-500">{onboardingError}</span>
-            )}
           </Section>
           <Section yPadding="py-0">
             <header className="text-2xl font-semibold">
@@ -255,6 +281,11 @@ function InterestsSurvey() {
                 />
               </div>
             </div>
+            {onboardingError && (
+              <span className="text-md font-semibold text-red-500">
+                {onboardingError}
+              </span>
+            )}
           </Section>
           <Section yPadding="py-5">
             <Button

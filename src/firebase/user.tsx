@@ -1,10 +1,16 @@
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 
 import { db } from './index';
 
 async function updateUserInfo(user: any, updatedUserInfo: any) {
-  const userRef = doc(db, 'users', user.uid);
-  await updateDoc(userRef, updatedUserInfo);
+  const usersRef = doc(db, 'users', user.uid);
+  await updateDoc(usersRef, updatedUserInfo);
 }
 
-export { updateUserInfo };
+async function isNewUser(user: any) {
+  const usersRef = doc(db, 'users', user.uid);
+  const docSnap = await getDoc(usersRef);
+  return !docSnap.exists();
+}
+
+export { updateUserInfo, isNewUser };

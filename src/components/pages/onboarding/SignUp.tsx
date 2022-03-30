@@ -8,7 +8,7 @@ import validator from 'validator';
 import { auth } from '../../../firebase';
 import {
   signUpWithEmailAndPassword,
-  signUpWithGoogle,
+  loginWithGoogle,
 } from '../../../firebase/auth';
 import { Background } from '../../background/Background';
 import { Section } from '../../layout/Section';
@@ -45,7 +45,7 @@ function SignUp() {
   };
 
   const handleGoogleSignUp = () => {
-    signUpWithGoogle().catch((e) => setInputError(e.message));
+    loginWithGoogle().catch((e) => setInputError(e.message));
   };
 
   if (loading) return <div>Loading...</div>;

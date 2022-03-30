@@ -42,7 +42,7 @@ function SignIn() {
   if (loading) return <div>Loading...</div>;
   if (error) return <></>;
   if (user) {
-    router.replace('/home/recommendations');
+    router.replace('/home/feed');
   }
 
   return (

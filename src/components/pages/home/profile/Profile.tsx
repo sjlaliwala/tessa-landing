@@ -5,11 +5,9 @@ import router from 'next/router';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import Creatable from 'react-select/creatable';
 import TimezoneSelect from 'react-timezone-select';
-import useSWR from 'swr';
 
 import { auth } from '../../../../firebase';
 import { updateUserInfo } from '../../../../firebase/user';
-import { fetcher } from '../../../fetcher';
 import AuthenticatedPage from '../../AuthenticatedPage';
 
 const careersData = [
@@ -74,50 +72,21 @@ function deepCheckObjects(o1: any, o2: any) {
 
 function Profile() {
   const [user] = useAuthState(auth);
-
-  const { data: userData, error } = useSWR(
-    user?.uid ? `/api/user/${user.uid}` : null,
-    fetcher
-  );
-
-  const [info, setInfo] = useState({
-    name: '',
-    linkedin: '',
-    position: '',
-    company: '',
-    location: '',
-    school: '',
-    major: '',
-    timezone: '',
-  });
-
-  const [newInfo, setNewInfo] = useState(info);
-
-  const [interests, setInterests] = useState({
-    careers: [],
-    domains: [],
-    locations: [],
-  });
-
+  const [info, setInfo]: any = useState(null);
+  const [newInfo, setNewInfo]: any = useState(info);
+  const [interests, setInterests]: any = useState(null);
   const [newInterests, setNewInterests] = useState(interests);
-
-  const canUpdateProfile = deepCheckObjects(
-    { ...info, ...interests },
-    { ...newInfo, ...newInterests }
-  );
-
+  const [error, setError] = useState('');
   const [profileError, setProfileError] = useState('');
-
   const [updateLoading, setUpdateLoading] = useState(false);
 
-  useEffect(() => {
-    if (userData) {
-      setInfo(userData);
-      setNewInfo(userData);
-      setInterests(userData.interests);
-      setNewInterests(userData.interests);
-    }
-  }, [userData, error]);
+  const canUpdateProfile =
+    info &&
+    interests &&
+    deepCheckObjects(
+      { ...info, ...interests },
+      { ...newInfo, ...newInterests }
+    );
 
   const handleProfileUpdate = async () => {
     if (
@@ -176,8 +145,33 @@ function Profile() {
     setNewInterests(interests);
   };
 
-  if (error) router.replace('/onboarding/interests-survey');
-  else if (!userData) return <div>Loading...</div>;
+  useEffect(() => {
+    if (user) {
+      fetch(`/api/user/${user.uid}`)
+        .then(async (res) => {
+          if (res.ok) {
+            const { userData: newUserData }: any = await res.json();
+            if (!newUserData.onboarded) {
+              router.replace('/onboarding/interests-survey');
+              return;
+            }
+            setNewInfo(newUserData);
+            setNewInterests(newUserData.interests);
+            setInfo(newUserData);
+            setInterests(newUserData.interests);
+          } else {
+            const { message }: any = await res.json();
+            const err = new Error(message);
+            throw err;
+          }
+        })
+        .catch((e) => setError(e.message));
+    }
+  }, [user]);
+
+  if (error) return <AuthenticatedPage>{error}</AuthenticatedPage>;
+  if (!info || !interests)
+    return <AuthenticatedPage>Loading...</AuthenticatedPage>;
 
   return (
     <AuthenticatedPage>

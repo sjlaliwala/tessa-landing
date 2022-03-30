@@ -22,7 +22,7 @@ const NewsRecommendation = ({ data }: any) => {
       <Card className={`mb-1 shadow-md bg-gray-50 mb-3`}>
         <CardBody>
           <a href={data.link} target="_blank" rel="noreferrer noopener">
-            <div className="text-xl font-semibold text-gray-800 bg-blue-50 hover:bg-blue-100 mb-3 p-3 rounded-lg border-2 border-solid border-blue-300 shadow-lg">
+            <div className="text-xl  flex justify-center font-semibold text-gray-800 bg-blue-50 hover:bg-blue-100 mb-3 p-3 rounded-lg border-2 border-solid border-blue-300 shadow-lg">
               {data.title}
             </div>
           </a>
@@ -84,7 +84,7 @@ function NewsRecommendations(props: any) {
       {news.length > 0 && (
         <form onSubmit={handleSubmit}>
           <Label>
-            <span>Search Your Recommended News</span>
+            <span className="text-lg">Search Your Recommended News</span>
             <Input
               css="true"
               className="mb-4"

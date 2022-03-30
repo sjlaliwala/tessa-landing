@@ -15,17 +15,17 @@ function OnboardingButton() {
       {user ? (
         <Button
           block
-          size="large"
-          className="text-xl"
-          onClick={() => router.replace('/home/recommendations')}
+          size="larger"
+          className="text-2xl"
+          onClick={() => router.replace('/home/feed')}
         >
-          Go to my updates!
+          Go to my feed!
         </Button>
       ) : (
         <Button
           block
-          size="large"
-          className="text-xl"
+          size="larger"
+          className="text-2xl"
           onClick={() => router.replace('/onboarding/sign-up')}
         >
           Start your journey today!

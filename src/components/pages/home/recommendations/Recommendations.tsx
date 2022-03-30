@@ -62,33 +62,33 @@ function Recommendations() {
     }
   }, [user]);
 
+  if (error) return <AuthenticatedPage>{error}</AuthenticatedPage>;
+  if (!recommendations)
+    return <AuthenticatedPage>Loading...</AuthenticatedPage>;
+
   return (
     <AuthenticatedPage>
-      {recommendations && (
-        <>
-          <div className="relative">
-            <Button size="larger" className="text-2xl" onClick={toggleDropdown}>
-              {capitalizeWord(type)}
-            </Button>
-            <Dropdown
-              isOpen={isOpen}
-              onClose={lodash.debounce(() => setIsOpen(false), 100)}
+      <div className="relative">
+        <Button size="larger" className="text-2xl" onClick={toggleDropdown}>
+          {capitalizeWord(type)}
+        </Button>
+        <Dropdown
+          isOpen={isOpen}
+          onClose={lodash.debounce(() => setIsOpen(false), 100)}
+        >
+          {Object.keys(recommendations).map((recommendationType, i) => (
+            <DropdownItem
+              className="text-2xl"
+              key={`type-${i}`}
+              onClick={handleTypeChange}
+              value={recommendationType}
             >
-              {Object.keys(recommendations).map((recommendationType, i) => (
-                <DropdownItem
-                  className="text-2xl"
-                  key={`type-${i}`}
-                  onClick={handleTypeChange}
-                  value={recommendationType}
-                >
-                  {capitalizeWord(recommendationType)}
-                </DropdownItem>
-              ))}
-            </Dropdown>
-          </div>
-          {displaySelectedRecommendations()}
-        </>
-      )}
+              {capitalizeWord(recommendationType)}
+            </DropdownItem>
+          ))}
+        </Dropdown>
+      </div>
+      {displaySelectedRecommendations()}
       {error && <p>{error}</p>}
     </AuthenticatedPage>
   );

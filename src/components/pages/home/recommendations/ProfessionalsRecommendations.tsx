@@ -53,7 +53,7 @@ const ProfessionalRecommendation = ({ data }: any) => {
       <Card className={`mb-1 shadow-md bg-gray-50 mb-3 text-gray-800`}>
         <CardBody>
           <a href={data.linkedin} target="_blank" rel="noreferrer noopener">
-            <div className="text-2xl font-semibold bg-blue-50 hover:bg-blue-100 mb-3 p-3 rounded-lg border-2 border-solid border-blue-300 shadow-lg">
+            <div className="text-2xl flex justify-center font-semibold bg-blue-50 hover:bg-blue-100 mb-3 p-3 rounded-lg border-2 border-solid border-blue-300 shadow-lg">
               {data.name}
             </div>
           </a>
@@ -152,7 +152,9 @@ function ProfessionalsRecommendations(props: any) {
       {professionals.length > 0 && (
         <form onSubmit={handleSubmit}>
           <Label>
-            <span>Search Your Recommended Professionals</span>
+            <span className="text-lg">
+              Search Your Recommended Professionals
+            </span>
             <Input
               css="true"
               className="mb-4"

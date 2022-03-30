@@ -8,24 +8,24 @@ import {
 import { collection, doc, setDoc } from 'firebase/firestore';
 
 import { auth, db } from './index';
+import { isNewUser } from './user';
 
 const googleProvider = new GoogleAuthProvider();
 
 const loginWithGoogle = async () => {
-  await signInWithPopup(auth, googleProvider);
-};
-
-const signUpWithGoogle = async () => {
   const res = await signInWithPopup(auth, googleProvider);
   const { user } = res;
-  const usersRef = collection(db, 'users');
-  await setDoc(doc(usersRef, user.uid), {
-    uid: user.uid,
-    name: user.displayName,
-    authProvider: 'google',
-    email: user.email,
-    created: new Date().getTime(),
-  });
+  if (await isNewUser(user)) {
+    const usersRef = collection(db, 'users');
+    await setDoc(doc(usersRef, user.uid), {
+      uid: user.uid,
+      name: user.displayName,
+      authProvider: 'google',
+      email: user.email,
+      created: new Date().getTime(),
+      onboarded: false,
+    });
+  }
 };
 
 const loginWithEmailAndPassword = async (email: string, password: string) => {
@@ -46,6 +46,7 @@ const signUpWithEmailAndPassword = async (
     authProvider: 'local',
     email,
     created: new Date().getTime(),
+    onboarded: false,
   });
 };
 
@@ -61,7 +62,6 @@ export {
   loginWithGoogle,
   loginWithEmailAndPassword,
   signUpWithEmailAndPassword,
-  signUpWithGoogle,
   sendPwrdResetEmail,
   signOut,
 };

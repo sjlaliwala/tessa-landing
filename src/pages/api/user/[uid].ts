@@ -24,7 +24,7 @@ export default async function userHandler(
       // Get data from your database
       const userData = await fetchUser(uid);
       if (userData) {
-        res.status(200).json(userData);
+        res.status(200).json({ userData });
       } else {
         res.status(404).json({ message: 'User not found' });
       }

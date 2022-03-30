@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Button } from '@windmill/react-ui';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { signOut } from '../../../firebase/auth';
 import { Logo } from '../../logo/Logo';
@@ -10,8 +11,11 @@ import { NavbarTwoColumns } from '../../navigation/NavbarTwoColumns';
 const pages = ['Feed', 'Recommendations', 'Profile'];
 
 function HomeNavbar() {
+  const router = useRouter();
+
   const handleLogout = () => {
     signOut();
+    router.replace('/');
   };
 
   return (
