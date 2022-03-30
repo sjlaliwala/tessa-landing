@@ -25,7 +25,7 @@ function SignUp() {
 
   const isValidEmail = !email || validator.isEmail(email);
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     if (!name) {
       setInputError('Please enter your full name');
       return;
@@ -38,13 +38,13 @@ function SignUp() {
       setInputError('Please enter a password');
       return;
     }
-    signUpWithEmailAndPassword(name, email, password).catch((e) =>
+    await signUpWithEmailAndPassword(name, email, password).catch((e) =>
       setInputError(e.message)
     );
   };
 
-  const handleGoogleSignUp = () => {
-    loginWithGoogle().catch((e) => setInputError(e.message));
+  const handleGoogleSignUp = async () => {
+    await loginWithGoogle().catch((e) => setInputError(e.message));
   };
 
   useEffect(() => {
