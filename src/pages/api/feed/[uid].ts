@@ -1,4 +1,11 @@
-import { collection, query, where, limit, getDocs } from 'firebase/firestore';
+import {
+  collection,
+  query,
+  where,
+  limit,
+  getDocs,
+  orderBy,
+} from 'firebase/firestore';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { db } from '../../../firebase';
@@ -10,6 +17,7 @@ async function fetchLatestRecommendations(uid: any) {
   const userRecommendationsQuery = query(
     recommendationsRef,
     where('uid', '==', uid),
+    orderBy('timestamp', 'desc'),
     limit(1)
   );
   const userRecommendationSnapshot = await getDocs(userRecommendationsQuery);
