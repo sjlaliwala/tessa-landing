@@ -21,7 +21,7 @@ function SignIn() {
   const [userError, setUserError] = useState('');
   const [inputError, setInputError] = useState('');
 
-  const handleSignIn = () => {
+  const handleSignIn = async () => {
     if (!email) {
       setInputError('Please enter an email');
       return;
@@ -30,12 +30,12 @@ function SignIn() {
       setInputError('Please enter a password');
       return;
     }
-    loginWithEmailAndPassword(email, password).catch((e) =>
+    await loginWithEmailAndPassword(email, password).catch((e) =>
       setInputError(e.message)
     );
   };
-  const handleGoogleSignIn = () => {
-    loginWithGoogle().catch((e) => setInputError(e.message));
+  const handleGoogleSignIn = async () => {
+    await loginWithGoogle().catch((e) => setInputError(e.message));
   };
 
   useEffect(() => {
