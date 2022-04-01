@@ -3,11 +3,17 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { db } from '../../../firebase';
 
-async function fetchUser(uid: any) {
+const MAX_RETRIES = 2;
+async function fetchUser(uid: any, retries = 0): Promise<any> {
+  if (retries >= MAX_RETRIES) {
+    return null;
+  }
   const userRef = doc(db, 'users', uid);
   const userSnap = await getDoc(userRef);
-  const userData = userSnap.exists() ? userSnap.data() : null;
-  return userData;
+  if (userSnap.exists()) {
+    return userSnap.data();
+  }
+  return fetchUser(uid, retries + 1);
 }
 
 export default async function userHandler(

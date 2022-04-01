@@ -115,13 +115,13 @@ function SignUp() {
                 className={`disabled:bg-gray-500 p-3 text-lg mt-4 rounded-lg text-white bg-black disabled:bg-blue-300`}
                 onClick={handleSignUp}
               >
-                Register
+                Sign Up
               </button>
               <button
                 className="p-3 text-lg mt-5 rounded-lg text-white bg-blue-600"
                 onClick={handleGoogleSignUp}
               >
-                Register with Google
+                Sign Up with Google
               </button>
 
               <div className="text-lg mt-5">

@@ -47,7 +47,7 @@ function SignIn() {
             if (!newUserData.onboarded) {
               router.replace('/onboarding/interests-survey');
             } else {
-              router.replace('/home/profile');
+              router.replace('/home/feed');
             }
           } else {
             const { message }: any = await res.json();
@@ -95,13 +95,13 @@ function SignIn() {
                 className="p-3 text-lg mb-5 text-white rounded-lg bg-black outline-1"
                 onClick={handleSignIn}
               >
-                Login
+                Sign In
               </button>
               <button
                 className="p-3 text-lg mb-5 text-white rounded-lg bg-blue-600 border-solid"
                 onClick={handleGoogleSignIn}
               >
-                Login with Google
+                Sign In with Google
               </button>
               <div className="text-lg mb-1">
                 <Link href="/onboarding/reset-password">Forgot Password</Link>
