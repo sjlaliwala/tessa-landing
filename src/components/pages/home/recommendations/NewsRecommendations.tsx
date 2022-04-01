@@ -18,7 +18,7 @@ const NewsRecommendation = ({ data }: any) => {
   };
 
   return (
-    <>
+    <div>
       <Card className={`mb-1 shadow-md bg-gray-50 mb-3`}>
         <CardBody>
           <a href={data.link} target="_blank" rel="noreferrer noopener">
@@ -49,7 +49,7 @@ const NewsRecommendation = ({ data }: any) => {
           />
         </CardBody>
       </Card>
-    </>
+    </div>
   );
 };
 
@@ -79,6 +79,8 @@ function NewsRecommendations(props: any) {
     []
   );
 
+  if (!news) return <p>No news found...</p>;
+
   return (
     <div className="mt-2">
       {news.length > 0 && (
@@ -93,13 +95,15 @@ function NewsRecommendations(props: any) {
           </Label>
         </form>
       )}
-      {news.length > 0 && filteredNews.length > 0 ? (
-        filteredNews.map((article: any, i: any) => {
-          return <NewsRecommendation key={`article-${i}`} data={article} />;
-        })
-      ) : (
-        <p>No news found</p>
-      )}
+      <div className="grid gap-4 grid-cols-2">
+        {news.length > 0 && filteredNews.length > 0 ? (
+          filteredNews.map((article: any, i: any) => {
+            return <NewsRecommendation key={`article-${i}`} data={article} />;
+          })
+        ) : (
+          <p>No news found</p>
+        )}
+      </div>
     </div>
   );
 }
