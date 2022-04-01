@@ -147,6 +147,8 @@ function ProfessionalsRecommendations(props: any) {
     []
   );
 
+  if (!professionals) return <p>No news found...</p>;
+
   return (
     <div className="mt-2">
       {professionals.length > 0 && (
