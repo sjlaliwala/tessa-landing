@@ -44,10 +44,10 @@ function Feed() {
     <AuthenticatedPage>
       <h2 className="font-semibold text-4xl mb-2">{displayDate}</h2>
       <div className="grid gap-x-7 gap-y-3 grid-cols-1">
+        {feed.news && <NewsFeed news={feed.news} />}
         {feed.professionals && (
           <ProfessionalsFeed professionals={feed.professionals} />
         )}
-        {feed.news && <NewsFeed news={feed.news} />}
       </div>
     </AuthenticatedPage>
   );

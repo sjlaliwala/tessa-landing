@@ -36,7 +36,7 @@ function Professional({ data, className }: any) {
           href={data.linkedin}
           target="_blank"
           rel="noreferrer noopener"
-          className="text-3xl text-blue-500 font-semibold"
+          className="underline text-3xl text-blue-500 font-semibold"
         >
           {data.name}
         </a>
