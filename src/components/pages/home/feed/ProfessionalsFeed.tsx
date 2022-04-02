@@ -41,7 +41,8 @@ function Professional({ data, className }: any) {
           {data.name}
         </a>
         <p className="text-2xl mt-3 font-semibold">
-          {capitalizePhrase(data.domain)} {data.company && `@ ${data.company}`}
+          {capitalizePhrase(data.domain)}{' '}
+          {data.company && data.company !== data.domain && `@ ${data.company}`}
         </p>
         <p className="text-2xl mt-3">{capitalizePhrase(data.career)} in</p>
         <p className="text-2xl mt-2">{capitalizePhrase(data.location)}</p>
