@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Button, Input } from '@windmill/react-ui';
+import { Button, Input, Label } from '@windmill/react-ui';
 import { useRouter } from 'next/router';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import Creatable from 'react-select/creatable';
@@ -12,7 +12,7 @@ import { Background } from '../../background/Background';
 import { Section } from '../../layout/Section';
 import { LandingNavbar } from '../landing/LandingNavbar';
 
-const careersData = [
+const careersData: any = [
   { value: 'software engineer', label: 'software engineer' },
   { value: 'senior software engineer', label: 'senior software engineer' },
   { value: 'product manager', label: 'product manager' },
@@ -21,7 +21,7 @@ const careersData = [
   { value: 'vp of engineering', label: 'vp of engineering' },
 ];
 
-const domainsData = [
+const domainsData: any = [
   { value: 'blockchain', label: 'blockchain' },
   { value: 'machine learning', label: 'machine learning' },
   { value: 'quantum computing', label: 'quantum computing' },
@@ -54,7 +54,7 @@ const domainsData = [
   { value: 'Microsoft', label: 'Microsoft' },
   { value: 'Amazon', label: 'Amazon' },
 ];
-const locationsData = [
+const locationsData: any = [
   { value: 'new york', label: 'new york' },
   { value: 'san francisco', label: 'san francisco' },
   { value: 'chicago', label: 'chicago' },
@@ -179,6 +179,9 @@ function InterestsSurvey() {
             <header className="text-2xl font-semibold">
               Tell us about your professional interests
             </header>
+            <Label className="pl-1 text-base text-gray-900">
+              Feel free to create your own tags as well!
+            </Label>
             <Creatable
               options={domainsData}
               isSearchable
