@@ -41,9 +41,12 @@ function HomeNavbar() {
           </li>
         );
       })}
-      <Button layout="link" size="large" onClick={handleOpenNewTab}>
-        Give Feedback
-      </Button>
+      <li>
+        <Button layout="link" size="large" onClick={handleOpenNewTab}>
+          Give Feedback
+        </Button>
+      </li>
+
       <li>
         <Button
           key="sign-out"
