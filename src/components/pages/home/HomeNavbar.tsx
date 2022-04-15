@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Button } from '@windmill/react-ui';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { signOut } from '../../../firebase/auth';
@@ -18,19 +17,37 @@ function HomeNavbar() {
     router.replace('/');
   };
 
+  const handlePageChange = (page: any) => {
+    router.replace(`/home/${page.toLowerCase()}`);
+  };
+
+  const handleOpenNewTab = () => {
+    window.open('https://forms.gle/FQV5EahiqSXFbXts7');
+  };
+
   return (
     <NavbarTwoColumns logo={<Logo xl />}>
       {pages.map((page) => {
         return (
-          <li className="text-2xl font-semibold" key={page}>
-            <Link href={`/home/${page.toLowerCase()}`}>{page}</Link>
+          <li key={page}>
+            <Button
+              key={page}
+              layout="link"
+              size="large"
+              onClick={() => handlePageChange(page)}
+            >
+              {page}
+            </Button>
           </li>
         );
       })}
+      <Button layout="link" size="large" onClick={handleOpenNewTab}>
+        Give Feedback
+      </Button>
       <li>
         <Button
           key="sign-out"
-          layout="primary"
+          layout="link"
           size="large"
           onClick={handleLogout}
         >
