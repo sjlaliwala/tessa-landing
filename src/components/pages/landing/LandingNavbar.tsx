@@ -16,16 +16,37 @@ function LandingNavbar() {
   const handleLogout = () => {
     signOut();
   };
+
+  const handleOpenNewTab = () => {
+    window.open('https://forms.gle/FQV5EahiqSXFbXts7');
+  };
+
   return (
     <NavbarTwoColumns logo={<Logo xl />}>
       <li>
+        <Button
+          key="feedback"
+          layout="link"
+          size="large"
+          onClick={handleOpenNewTab}
+        >
+          Give Feedback
+        </Button>
+      </li>
+      <li>
         {user ? (
-          <Button layout="primary" size="large" onClick={handleLogout}>
+          <Button
+            key="sign-out"
+            layout="link"
+            size="large"
+            onClick={handleLogout}
+          >
             Sign Out
           </Button>
         ) : (
           <Button
-            layout="primary"
+            key="sign-in"
+            layout="link"
             size="large"
             onClick={() => router.replace('/onboarding/sign-in')}
           >

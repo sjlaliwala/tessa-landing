@@ -196,9 +196,9 @@ export default {
       disabled: 'opacity-50 cursor-not-allowed bg-gray-300',
     },
     link: {
-      base: 'text-gray-600 dark:text-gray-400 focus:outline-none border border-transparent',
+      base: 'text-gray-800 dark:text-gray-400 focus:outline-none border border-transparent',
       active:
-        'active:bg-transparent hover:bg-gray-100 focus:ring focus:ring-gray-300 dark:hover:bg-gray-500 dark:hover:text-gray-300 dark:hover:bg-opacity-10',
+        'active:bg-transparent hover:bg-blue-50 focus:ring focus:ring-blue-300 dark:hover:bg-gray-500 dark:hover:text-gray-300 dark:hover:bg-opacity-10',
       disabled: 'opacity-50 cursor-not-allowed',
     },
     // this is the button that lives inside the DropdownItem

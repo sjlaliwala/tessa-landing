@@ -17,7 +17,7 @@ function AuthenticatedPage(props: any) {
   else if (!user) router.replace('/onboarding/sign-in');
 
   return (
-    <Background className="h-screen w-screen bg-pattern-randomized">
+    <Background className="h-screen w-screen antialiased bg-pattern-randomized">
       <Section yPadding="py-6">
         <HomeNavbar />
       </Section>
