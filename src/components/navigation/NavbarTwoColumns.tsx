@@ -27,7 +27,7 @@ const NavbarTwoColumns = (props: INavbarProps) => (
           @apply mt-0;
         }
 
-        .navbar :global(li) {
+        .navbar :global(li:not(:last-child)) {
           @apply mr-5;
         }
       `}
