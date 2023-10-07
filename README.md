@@ -2,7 +2,7 @@
 
 Interest based professional recommendations
 Features:
-- Landing Page,
+- Landing Page
 - Log In
 - Recommendations
 - Profile
